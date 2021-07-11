@@ -1,23 +1,26 @@
-<template>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-        <div>
-            <inertia-link href="/">
-                <breeze-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </inertia-link>
+<template lang="">
+  <div class="flex items-center min-h-screen p-4 bg-purple-50 lg:justify-center">
+    <div
+      class="flex flex-col overflow-hidden bg-white rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-screen-md"
+    >
+      <div
+        class="p-4 py-6 bg-white md:w-80 md:flex-shrink-0 md:flex md:flex-col md:items-center md:justify-evenly"
+      >
+        <div class="my-3 text-4xl font-bold tracking-wider text-center">
+          <inertia-link href="/">
+            <img src="../../../resources/images/logo.png" alt="logo" class="object-contain h-48 w-full" />
+          </inertia-link>
         </div>
 
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-            <slot />
-        </div>
+
+      </div>
+      <div class="p-5 bg-white md:flex-1">
+        <slot />
+      </div>
     </div>
+  </div>
 </template>
-
 <script>
-    import BreezeApplicationLogo from '@/Components/ApplicationLogo'
-
-    export default {
-        components: {
-            BreezeApplicationLogo,
-        }
-    }
+export default {}
 </script>
+<style lang=""></style>
