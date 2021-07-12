@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Models\User;
 use Inertia\Inertia;
+use App\Models\SocialLogin;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
+use App\Providers\RouteServiceProvider;
+use App\Http\Requests\Auth\LoginRequest;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -55,5 +60,49 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    //
+    public function redirectToProvider($provider)
+    {
+
+        //verificar
+        if (!config("services.$provider")) abort('404');
+
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function handleProviderCallback($provider)
+    {
+        $userSocialite = Socialite::driver($provider)->user();
+
+        $user = User::where('email', $userSocialite->email)->first();
+
+        if (!$user) {
+            //crear el usuario
+            $user = User::create([
+                'name' => $userSocialite->name,
+                'email' => $userSocialite->email ? $userSocialite->email : $userSocialite->nickname,
+                'password' => Hash::make(Str::random(10)),
+            ]);
+        }
+        $user_social = SocialLogin::where('social_id', $userSocialite->id)->orWhere('provider', $provider)->first();
+        if (!$user_social) {
+            SocialLogin::create([
+                'provider' => $provider,
+                'nick_email' => $userSocialite->email ? $userSocialite->email : $userSocialite->nickname,
+                'social_id' => $userSocialite->id,
+                'user_id' => $user->id
+            ]);
+        }
+
+        return $this->loginAndRedirect($user);
+    }
+
+    public function loginAndRedirect($user)
+    {
+        Auth::login($user);
+
+        return redirect()->to('/dashboard');
     }
 }

@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,4 +28,11 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+/**
+ * Login con redes sociales
+ */
+
+Route::get('/login/social/{provider}', [AuthenticatedSessionController::class, 'redirectToProvider'])->name('socialLogin');
+Route::get('/login/social/callback/{provider}', [AuthenticatedSessionController::class, 'handleProviderCallback']);
 require __DIR__.'/auth.php';

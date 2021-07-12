@@ -8,26 +8,27 @@
   </div>
   <!-- Login con redes sociales -->
   <article>
-    <div class="flex flex-row justify-center items-center space-x-3">
-      <span
-        class="w-full h-11 items-center justify-center inline-flex  font-bold text-lg text-red-400 hover:text-white rounded
-        bg-white hover:bg-red-500 hover:shadow-lg cursor-pointer transition ease-in duration-300 border-2 border-red-500"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="icon icon-tabler icon-tabler-brand-google w-6 h-6"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+      <inertia-link :href="route('socialLogin',{ provider: 'google' })" class="flex flex-row justify-center items-center space-x-3">
+
+        <span
+          class="w-full h-11 items-center justify-center inline-flex font-bold text-lg text-red-400 hover:text-white rounded bg-white hover:bg-red-500 hover:shadow-lg cursor-pointer transition ease-in duration-300 border-2 border-red-500"
         >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-          <path d="M17.788 5.108a9 9 0 1 0 3.212 6.892h-8"></path>
-        </svg>
-      </span>
-    </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-brand-google w-6 h-6"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M17.788 5.108a9 9 0 1 0 3.212 6.892h-8"></path>
+          </svg>
+
+        </span>
+      </inertia-link>
     <div class="flex items-center justify-center space-x-2 my-3">
       <span class="h-px w-full bg-gray-300"></span>
       <span class="text-gray-500 font-normal">O</span>
@@ -98,12 +99,12 @@
 </template>
 
 <script>
-import BreezeButton from '@/Components/Button'
-import BreezeGuestLayout from '@/Layouts/Guest'
-import BreezeInput from '@/Components/Input'
-import BreezeCheckbox from '@/Components/Checkbox'
-import BreezeLabel from '@/Components/Label'
-import BreezeValidationErrors from '@/Components/ValidationErrors'
+import BreezeButton from "@/Components/Button";
+import BreezeGuestLayout from "@/Layouts/Guest";
+import BreezeInput from "@/Components/Input";
+import BreezeCheckbox from "@/Components/Checkbox";
+import BreezeLabel from "@/Components/Label";
+import BreezeValidationErrors from "@/Components/ValidationErrors";
 
 export default {
   layout: BreezeGuestLayout,
@@ -124,19 +125,19 @@ export default {
   data() {
     return {
       form: this.$inertia.form({
-        email: '',
-        password: '',
+        email: "",
+        password: "",
         remember: false,
       }),
-    }
+    };
   },
 
   methods: {
     submit() {
-      this.form.post(this.route('login'), {
-        onFinish: () => this.form.reset('password'),
-      })
+      this.form.post(this.route("login"), {
+        onFinish: () => this.form.reset("password"),
+      });
     },
   },
-}
+};
 </script>
